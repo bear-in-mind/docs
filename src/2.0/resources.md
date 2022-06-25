@@ -251,6 +251,32 @@ end
 
 *You can't use `Avo::BaseController` and `Avo::ResourcesController` as **your base controller**. They are defined inside Avo.*
 
+### Hooks
+
+In case you need to perform some actions after a record has been successfully created, updated or destroyed, you can specify custom behavior like so:
+```ruby
+class Avo::UsersController < Avo::ResourcesController
+  def create
+    super do |record|
+      record.notify("User created")
+    end
+  end
+
+  def update
+    super do |record|
+      record.notify("User updated")
+    end
+  end
+
+  def destroy
+    super do
+      puts "User destroyed"
+    end
+  end
+end
+```
+In `create` and `update`, you can access the `record` that has just been created/updated.
+
 ## Records ordering
 
 **Requires V 1.24.2 +**
